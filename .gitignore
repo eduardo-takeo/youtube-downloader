@@ -1,0 +1,26 @@
+# Arquivos e pastas específicos do Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# Arquivos e pastas específicos do projeto
+downloads/
+links.txt
+errors.txt
+*.mp3
+logs/
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+.env
+
+# Mantenha apenas
+# main.py
+# README.md
+# requirements.txt

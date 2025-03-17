@@ -19,8 +19,3 @@ logs/
 .DS_Store
 Thumbs.db
 .env
-
-# Mantenha apenas
-# main.py
-# README.md
-# requirements.txt

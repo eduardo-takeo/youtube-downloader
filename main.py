@@ -1,7 +1,3 @@
-# FIXME: 
-# - [ ] Gerar arquivo de log para cada vídeo baixado
-# - [ ] Melhorar mensagens de erro
-
 import os
 import yt_dlp
 
@@ -21,22 +17,21 @@ def download_audio(video_url, output_folder, error_file):
             'no_warnings': True,
             'quiet': False,
             'extract_flat': False,
+            'noplaylist': True,
             'http_headers': {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             }
         }
-        # Verifica se a URL é válida antes de tentar o download
+        # Check if the URL is valid before trying to download
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             try:
                 ydl.extract_info(video_url, download=False)
-                # Se chegou aqui, a URL é válida, então faz o download
                 ydl.download([video_url])
                 print(f"Download concluído: {video_url}")
             except Exception as e:
-                # URL inválida ou erro no download
-                with open(error_file, 'a', encoding='utf-8') as f:
-                    f.write(f"{video_url} - Erro: {str(e)}\n")
-                print(f"Erro ao processar o vídeo {video_url}: {e}")
+                pen(error_file, 'a', encoding='utf-8') as f:
+                    f.write(f"{video_url} - Error: {str(e)}\n")
+                print(f"Error processing video {video_url}: {e}")
                 
     except Exception as e:
         with open(error_file, 'a', encoding='utf-8') as f:
@@ -45,40 +40,40 @@ def download_audio(video_url, output_folder, error_file):
 
 
 def main():
-    # Arquivo contendo os links
+    # File containing the links
     input_file = "links.txt"
-    # Pasta de saída
+    # Output folder
     output_folder = "downloads"
     error_file = "errors.txt"
     os.makedirs(output_folder, exist_ok=True)
     
-    # Limpa o arquivo de erros se ele existir
+    # Clear the error file if it exists
     if os.path.exists(error_file):
         os.remove(error_file)
 
-    # Verifica se o arquivo existe
+    # Check if the file exists
     if not os.path.exists(input_file):
         print(
-            f"Arquivo {input_file} não encontrado. Certifique-se de que ele existe.")
+            f"File {input_file} not found. Ensure it exists.")
         return
 
-    # Lê os links do arquivo
+    # Read the links from the file
     with open(input_file, "r") as file:
         video_urls = [line.strip() for line in file if line.strip()]
 
     if not video_urls:
         print(
-            f"O arquivo {input_file} está vazio. Adicione links do YouTube (um por linha).")
+            f"The file {input_file} is empty. Add YouTube links (one per line).")
         return
 
-    # Processar cada URL
+    # Process each URL
     for url in video_urls:
         download_audio(url, output_folder, error_file)
 
     if os.path.exists(error_file) and os.path.getsize(error_file) > 0:
-        print(f"\nAlguns vídeos não puderam ser baixados. Verifique {error_file} para mais detalhes.")
+        print(f"\nSome videos could not be downloaded. Check {error_file} for more details.")
     
-    print("\nTodos os downloads concluídos!")
+    print("\nAll downloads completed!")
 
 
 if __name__ == "__main__":

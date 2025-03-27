@@ -29,7 +29,7 @@ def download_audio(video_url, output_folder, error_file):
                 ydl.download([video_url])
                 print(f"Download concluído: {video_url}")
             except Exception as e:
-                pen(error_file, 'a', encoding='utf-8') as f:
+                with open(error_file, 'a', encoding='utf-8') as f:
                     f.write(f"{video_url} - Error: {str(e)}\n")
                 print(f"Error processing video {video_url}: {e}")
                 

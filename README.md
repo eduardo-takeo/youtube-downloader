@@ -52,5 +52,5 @@ https://www.youtube.com/watch?v=<VIDEO_ID>
 4. Run script
 
 ```bash
-python main.py
+python -m src.youtube_downloader
 ```

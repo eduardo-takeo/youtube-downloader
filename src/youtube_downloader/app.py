@@ -1,7 +1,6 @@
 import os
 import yt_dlp
 
-
 def download_audio(video_url, output_folder, error_file):
     try:
         ydl_opts = {
@@ -39,12 +38,12 @@ def download_audio(video_url, output_folder, error_file):
         print(f"Erro ao processar o vídeo {video_url}: {e}")
 
 
-def main():
+def start_download():
     # File containing the links
-    input_file = "links.txt"
+    input_file = "data/input/links.txt"
     # Output folder
-    output_folder = "downloads"
-    error_file = "errors.txt"
+    output_folder = "data/output/downloads"
+    error_file = "output/errors.txt"
     os.makedirs(output_folder, exist_ok=True)
     
     # Clear the error file if it exists
@@ -74,7 +73,3 @@ def main():
         print(f"\nSome videos could not be downloaded. Check {error_file} for more details.")
     
     print("\nAll downloads completed!")
-
-
-if __name__ == "__main__":
-    main()

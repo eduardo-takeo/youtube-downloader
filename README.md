@@ -51,6 +51,14 @@ https://www.youtube.com/watch?v=<VIDEO_ID>
 
 4. Run script
 
+**Download video**
+
 ```bash
 python -m src.youtube_downloader
+```
+
+**Download audio only**
+
+```bash
+python -m src.youtube_downloader --audio-only
 ```

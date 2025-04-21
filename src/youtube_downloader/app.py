@@ -1,15 +1,15 @@
 import os
 import yt_dlp
 
-def download_audio(video_url, output_folder, error_file):
+def download_audio(video_url, output_folder, error_file, audio_only):
     try:
         ydl_opts = {
-            'format': 'bestaudio/best',
+            'format': 'bestaudio/best' if audio_only else 'bestvideo+bestaudio/best',
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
-            }],
+            }] if audio_only else [],
             'outtmpl': f'{output_folder}/%(title)s.%(ext)s',
             'nocheckcertificate': True,
             'ignoreerrors': True,
@@ -38,7 +38,7 @@ def download_audio(video_url, output_folder, error_file):
         print(f"Erro ao processar o vídeo {video_url}: {e}")
 
 
-def start_download():
+def start_download(audio_only=False):
     # File containing the links
     input_file = "data/input/links.txt"
     # Output folder
@@ -67,7 +67,7 @@ def start_download():
 
     # Process each URL
     for url in video_urls:
-        download_audio(url, output_folder, error_file)
+        download_audio(url, output_folder, error_file, audio_only)
 
     if os.path.exists(error_file) and os.path.getsize(error_file) > 0:
         print(f"\nSome videos could not be downloaded. Check {error_file} for more details.")

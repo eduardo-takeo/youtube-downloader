@@ -3,6 +3,8 @@ import yt_dlp
 
 def download_audio(video_url, output_folder, error_file, audio_only):
     try:
+        # Define the output template
+        outtmpl = f'{output_folder}/%(title)s.%(ext)s'
         ydl_opts = {
             'format': 'bestaudio/best' if audio_only else 'bestvideo+bestaudio/best',
             'postprocessors': [{
@@ -10,7 +12,7 @@ def download_audio(video_url, output_folder, error_file, audio_only):
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             }] if audio_only else [],
-            'outtmpl': f'{output_folder}/%(title)s.%(ext)s',
+            'outtmpl': outtmpl,
             'nocheckcertificate': True,
             'ignoreerrors': True,
             'no_warnings': True,
@@ -21,21 +23,26 @@ def download_audio(video_url, output_folder, error_file, audio_only):
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             }
         }
-        # Check if the URL is valid before trying to download
+
+        # Check if the file already exists
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            try:
-                ydl.extract_info(video_url, download=False)
-                ydl.download([video_url])
-                print(f"Download concluído: {video_url}")
-            except Exception as e:
-                with open(error_file, 'a', encoding='utf-8') as f:
-                    f.write(f"{video_url} - Error: {str(e)}\n")
-                print(f"Error processing video {video_url}: {e}")
-                
+            info_dict = ydl.extract_info(video_url, download=False)
+            filename = ydl.prepare_filename(info_dict)
+            if audio_only:
+                filename = os.path.splitext(filename)[0] + ".mp3"
+
+            if os.path.exists(filename):
+                print(f"File already exists, skipping download: {filename}")
+                return
+
+            # Download the video/audio
+            ydl.download([video_url])
+            print(f"Download concluído: {video_url}")
+
     except Exception as e:
         with open(error_file, 'a', encoding='utf-8') as f:
-            f.write(f"{video_url} - Erro: {str(e)}\n")
-        print(f"Erro ao processar o vídeo {video_url}: {e}")
+            f.write(f"{video_url} - Error: {str(e)}\n")
+        print(f"Error processing video {video_url}: {e}")
 
 
 def start_download(audio_only=False):

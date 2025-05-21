@@ -54,11 +54,11 @@ https://www.youtube.com/watch?v=<VIDEO_ID>
 **Download video**
 
 ```bash
-python -m src.youtube_downloader
+python src/main.py
 ```
 
 **Download audio only**
 
 ```bash
-python -m src.youtube_downloader --audio-only
+python src/main.py --audio-only
 ```

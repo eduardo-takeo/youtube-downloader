@@ -1,4 +1,5 @@
 import os
+import re
 import yt_dlp
 
 def download_audio(video_url, output_folder, error_file, audio_only):
@@ -45,6 +46,14 @@ def download_audio(video_url, output_folder, error_file, audio_only):
         print(f"Error processing video {video_url}: {e}")
 
 
+def is_valid_youtube_url(url):
+    pattern = (
+        r"^https://www\.youtube\.com/watch\?v=[\w-]+&ab_channel=[\w\-]+"
+        r"([&\w=%]*)?$"
+    )
+    return re.match(pattern, url) is not None
+
+
 def start_download(audio_only=False):
     # File containing the links
     input_file = "data/input/links.txt"
@@ -63,13 +72,17 @@ def start_download(audio_only=False):
             f"File {input_file} not found. Ensure it exists.")
         return
 
-    # Read the links from the file
+    # Read the links from the file e filtra apenas URLs válidas
     with open(input_file, "r") as file:
-        video_urls = [line.strip() for line in file if line.strip()]
+        video_urls = [
+            line.strip()
+            for line in file
+            if line.strip() and is_valid_youtube_url(line.strip())
+        ]
 
     if not video_urls:
         print(
-            f"The file {input_file} is empty. Add YouTube links (one per line).")
+            f"The file {input_file} is empty or contains no valid YouTube video URLs. Add valid links (one per line).")
         return
 
     # Process each URL

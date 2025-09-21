@@ -19,6 +19,8 @@ def get_ydl_opts(output_folder, audio_only):
         'quiet': False,
         'extract_flat': False,
         'noplaylist': True,
+        'retries': 3,
+        'fragment_retries': 3,
         'http_headers': {
             'User-Agent': 'Mozilla/5.0',
         }

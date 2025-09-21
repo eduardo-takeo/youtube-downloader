@@ -27,19 +27,13 @@ Simple script to download music directly from YouTube
 
 ## 🧰 Usage
 
-1. Activate virtual env
-
-```bash
-source env/bin/activate
-```
-
-2. Install dependencies
+1. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Put YouTube video links inside **links.txt** file
+2. Put YouTube video links inside **links.txt** file
 
 ```
 # 🚧 INSERT ONE LINK PER LINE
@@ -49,16 +43,16 @@ https://www.youtube.com/watch?v=<VIDEO_ID>
 https://www.youtube.com/watch?v=<VIDEO_ID>
 ```
 
-4. Run script
+3. Run script
 
 **Download video**
 
 ```bash
-python src/main.py
+./run.sh
 ```
 
 **Download audio only**
 
 ```bash
-python src/main.py --audio-only
+./run.sh --audio-only
 ```

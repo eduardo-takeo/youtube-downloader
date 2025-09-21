@@ -5,13 +5,25 @@ from utils import is_valid_youtube_url
 
 def get_ydl_opts(output_folder, audio_only):
     outtmpl = f'{output_folder}/%(title)s.%(ext)s'
-    return {
-        'format': 'bestaudio/best' if audio_only else 'bestvideo+bestaudio/best',
-        'postprocessors': [{
+    
+    if audio_only:
+        postprocessors = [{
             'key': 'FFmpegExtractAudio',
             'preferredcodec': 'mp3',
             'preferredquality': '192',
-        }] if audio_only else [],
+        }]
+        format_selector = 'bestaudio/best'
+    else:
+        postprocessors = [{
+            'key': 'FFmpegVideoConvertor',
+            'preferedformat': 'mp4',
+        }]
+        
+        format_selector = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best'
+    
+    return {
+        'format': format_selector,
+        'postprocessors': postprocessors,
         'outtmpl': outtmpl,
         'nocheckcertificate': True,
         'ignoreerrors': True,
@@ -57,8 +69,11 @@ def download_audio(video_url, audio_only):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(video_url, download=False)
             filename = ydl.prepare_filename(info_dict)
+            
             if audio_only:
                 filename = os.path.splitext(filename)[0] + ".mp3"
+            else:
+                filename = os.path.splitext(filename)[0] + ".mp4"
 
             if os.path.exists(filename):
                 print(f"File already exists, skipping: {filename}")

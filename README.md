@@ -51,14 +51,8 @@ https://www.youtube.com/watch?v=<VIDEO_ID>
 
 3. Run script
 
-**Download video**
+**Download mp3 files**
 
 ```bash
 ./run.sh
-```
-
-**Download audio only**
-
-```bash
-./run.sh --audio-only
 ```

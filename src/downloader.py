@@ -5,7 +5,7 @@ from utils import is_valid_youtube_url
 
 def get_ydl_opts(output_folder, audio_only):
     outtmpl = f'{output_folder}/%(title)s.%(ext)s'
-    
+
     if audio_only:
         postprocessors = [{
             'key': 'FFmpegExtractAudio',
@@ -16,11 +16,10 @@ def get_ydl_opts(output_folder, audio_only):
     else:
         postprocessors = [{
             'key': 'FFmpegVideoConvertor',
-            'preferedformat': 'mp4',
+            'preferredformat': 'mp4',
         }]
+        format_selector = 'bestvideo+bestaudio/best'
         
-        format_selector = 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best'
-    
     return {
         'format': format_selector,
         'postprocessors': postprocessors,
@@ -37,7 +36,7 @@ def get_ydl_opts(output_folder, audio_only):
             'User-Agent': 'Mozilla/5.0',
         }
     }
-
+    
 def start_download(audio_only=False):
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 

@@ -2,6 +2,12 @@
 
 Simple script to download music directly from YouTube
 
+**🚨 IMPORTANT 🚨**
+
+YouTube make changes on the way it serves it's videos, make sure **yt-dlp** library is always up to date:
+
+`pip install -U yt-dlp`
+
 ## 🛠️ Prerequisites
 
 - [python3](https://www.python.org/downloads/) installed

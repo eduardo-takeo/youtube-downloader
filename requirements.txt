@@ -7,4 +7,4 @@ proglog==0.1.10
 python-dotenv==1.0.1
 pytube==15.0.0
 tqdm==4.67.1
-yt-dlp==2025.9.5
+yt-dlp
